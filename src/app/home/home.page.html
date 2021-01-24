@@ -1,20 +1,66 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
+<div id="mapId" style="width: 100%; height: 90%"></div>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-  </div>
-</ion-content>
+<div>
+    <h2>Precisione GPS: {{precision}}</h2>
+    <ion-range min="1" max="10" step="1" value={{precision}} (ionChange)="changeGpsPrecision($event.detail.value)">
+        <ion-icon size="small" slot="start" name="locate-outline"></ion-icon>
+        <ion-icon slot="end" name="locate-outline"></ion-icon>
+      </ion-range>
+</div>
+<ion-fab style="align-self: center;">
+    <div style="margin-top: 30%; width: 110%; border-style: groove; border-width: 2; padding: 5%;">
+        <h1>{{displayTime}}</h1>
+    </div>
+</ion-fab>
+
+<ion-fab vertical="center" horizontal="end" slot="fixed">
+    
+    <div class="floating">
+        <ion-fab-button color={{placedStartColor}} size="small" (click)="addStartMarker()">
+            <ion-icon src="/assets/icon/starticonnew.svg"></ion-icon>
+        </ion-fab-button>
+    </div>
+
+    <div class="floating">
+        <ion-fab-button color={{placedStopColor}}  size="small" (click)="addArriveMarker()">
+            <ion-icon src="/assets/icon/arriveicon.svg"></ion-icon>
+        </ion-fab-button>
+    </div>
+
+    
+    <div class="floating">
+        <ion-fab-button color="transparent" size="small" (click)="removeStartAndArrive()">
+            <ion-icon name="remove"></ion-icon>
+        </ion-fab-button>
+    </div>
+
+    <div class="floating">
+        <ion-fab-button color="transparent" size="small" (click)="startCount()">
+            <ion-icon name={{playStopTimer}}></ion-icon>
+        </ion-fab-button>
+    </div>
+
+    <div class="floating">
+        <ion-fab-button color="transparent" size="small" (click)="refreshCurrentPosition()">
+            <ion-icon name="refresh-outline"></ion-icon>
+        </ion-fab-button>
+    </div>
+
+  
+
+        
+
+  </ion-fab>
+
+<!-- <div>
+    <button (click)="startCount()">START</button>
+</div>
+
+<div>
+    <button (click)="refreshCurrentPosition()">REFRESH</button>
+</div>
+
+<div>
+    {{sec}}
+</div> -->

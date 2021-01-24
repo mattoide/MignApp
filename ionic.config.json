@@ -1,5 +1,7 @@
 {
   "name": "MignApp",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }
