@@ -8,6 +8,7 @@
         <ion-icon slot="end" name="locate-outline"></ion-icon>
       </ion-range>
 </div>
+
 <ion-fab style="align-self: center;">
     <div style="margin-top: 30%; width: 110%; border-style: groove; border-width: 2; padding: 5%;">
         <h1>{{displayTime}}</h1>
@@ -34,24 +35,28 @@
             <ion-icon name="remove"></ion-icon>
         </ion-fab-button>
     </div>
-
+<!-- 
     <div class="floating">
         <ion-fab-button color="transparent" size="small" (click)="startCount()">
             <ion-icon name={{playStopTimer}}></ion-icon>
         </ion-fab-button>
-    </div>
+    </div> -->
 
     <div class="floating">
         <ion-fab-button color="transparent" size="small" (click)="refreshCurrentPosition()">
             <ion-icon name="refresh-outline"></ion-icon>
         </ion-fab-button>
     </div>
-
-  
-
-        
-
+    
   </ion-fab>
+
+  <ion-fab style="position: absolute; bottom: 15%; align-self: center;">
+    <div class="floating">
+        <ion-fab-button color="warning" size="small" (click)="presentModal()">
+            <ion-icon name="information-circle-outline"></ion-icon>
+        </ion-fab-button>
+    </div>
+</ion-fab>
 
 <!-- <div>
     <button (click)="startCount()">START</button>

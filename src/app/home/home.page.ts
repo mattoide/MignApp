@@ -3,6 +3,10 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
 import * as Leaflet from 'leaflet';
 import { LocationAccuracy } from '@ionic-native/location-accuracy/ngx';
 
+import { ModalController } from '@ionic/angular';
+import { ModalComponent } from '../modal/modal.component';
+
+
 
 const hereIcon = Leaflet.icon({
   iconUrl: 'assets/icon/hereicon.png',
@@ -67,13 +71,14 @@ export class HomePage {
   markerStartPlaced = false
   markerStopPlaced = false
 
-  placedStartColor = "success"
-  placedStopColor = "success"
+  placedStartColor = "null"
+  placedStopColor = "null"
 
   displayTime = "00:00:000"
 
   startedTime = null
   playStopTimer = "play"
+  modalClosed = true
   /******/
 
 
@@ -91,8 +96,18 @@ export class HomePage {
 
   subscription;
 
-  constructor(private geolocation: Geolocation, private locationAccuracy: LocationAccuracy) {
+  constructor(private geolocation: Geolocation, private locationAccuracy: LocationAccuracy,
+    public modalController: ModalController) {
     this.getCurrentPos()
+  }
+
+  async presentModal() {
+    const modal = await this.modalController.create({
+      component: ModalComponent,
+  
+      
+    });
+    return await modal.present();
   }
 
   onMapClick(e) {
@@ -132,50 +147,65 @@ export class HomePage {
   }
 
   removeStartAndArrive() {
+    
+    this.stopCount();
 
     try {
       this.map.removeLayer(this.markerStart);
       this.map.removeLayer(this.markerStop);
-
-      this.placedStopColor = "success"
-      this.placedStartColor = "success"
-
-      this.markerStart = null
-      this.markerStartPlaced = false
-
-      this.markerStop = null
-      this.markerStopPlaced = false
-
-      this.markerType = null;
-
     } catch { }
+    
+    this.placedStopColor = "null"
+    this.placedStartColor = "null"
+
+    this.markerStart = null
+    this.markerStartPlaced = false
+
+    this.markerStop = null
+    this.markerStopPlaced = false
+
+    this.markerType = null;
 
   }
   addStartMarker() {
 
+    // if(this.markerType == arriveType && this.markerStop == null){
+    //   this.placedStopColor = "null"
+    // }
+
     this.markerType = startType;
+    this.placedStartColor = "success"
+
 
     try {
       this.map.removeLayer(this.markerStart);
       this.markerStart = null
       this.markerStartPlaced = false
-      this.placedStartColor = "success"
+      this.placedStartColor = "null"
+      this.markerType = null
+
     } catch { }
   }
 
   addArriveMarker() {
 
+    // if(this.markerType == startType && this.markerStart == null){
+    //   this.placedStartColor = "null"
+    // }
     this.markerType = arriveType;
+    this.placedStopColor = "success"
+
 
     try {
       this.map.removeLayer(this.markerStop);
       this.markerStop = null
       this.markerStopPlaced = false
-      this.placedStopColor = "success"
+      this.placedStopColor = "null"
+      this.markerType = null
     } catch { }
   }
 
-  changeGpsPrecision(e){
+  changeGpsPrecision(e) {
     this.precision = e
   }
 
@@ -288,8 +318,6 @@ export class HomePage {
       if (JSON.stringify(myCoords) == JSON.stringify(this.startCoords)) {
 
         if (this.timerstarted == false) {
-
-          console.log("timerstarted == false")
           this.startTim();
           this.timerstarted = true
           this.playStopTimer = "stop"
@@ -299,9 +327,8 @@ export class HomePage {
 
 
       if (JSON.stringify(myCoords) == JSON.stringify(this.stopCoords)) {
-        this.stoptimer = true;
 
-        this.playStopTimer = "play"
+        this.stopCount();
         // this.subscription.unsubscribe()
       }
 
@@ -360,13 +387,14 @@ export class HomePage {
 
         this.stoptimer = false
         this.timerstarted = false
+       // this.playStopTimer = "play"
       }
 
     }, 1);
   }
 
 
-  ionViewDidEnter(){
+  ionViewDidEnter() {
     this.startCount();
   }
 

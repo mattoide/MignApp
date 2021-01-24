@@ -1,0 +1,57 @@
+<div class="mdl"> 
+ 
+  <div style="display: inline-flex">
+     
+    <ion-fab-button color="null" size="small">
+      <ion-icon src="/assets/icon/starticonnew.svg"></ion-icon>
+    </ion-fab-button>
+      <p style="display: inline-block;">Punto non selezionato. Clicca sul pulsante per seleionarlo</p>
+
+  </div>
+
+  <div style="display: inline-flex">
+     
+    <ion-fab-button color="success" size="small">
+      <ion-icon src="/assets/icon/arriveicon.svg"></ion-icon>
+    </ion-fab-button>
+      <p style="display: inline-block;">Punto selezionato. Cliccando sulla mappa verrà piazzato</p>
+      
+  </div>
+
+  <div style="display: inline-flex">
+     
+    <ion-fab-button color="danger" size="small">
+      <ion-icon src="/assets/icon/starticonnew.svg"></ion-icon>
+    </ion-fab-button>
+      <p style="display: inline-block;">Punto piazzato. Cliccando sul pulsante verrà rimosso</p>
+      
+  </div>
+
+  <div style="display: inline-flex;">
+     
+    <ion-fab-button color="null" size="small">
+      <ion-icon name="remove"></ion-icon>
+    </ion-fab-button>
+      <p style="display: inline-block;">Rimuove dalla mappa i punti di partenza e arrivo</p>
+      
+  </div>
+
+
+  <div style="display: inline-flex;">
+     
+    <ion-fab-button color="null" size="small">
+      <ion-icon name="refresh-outline"></ion-icon>
+    </ion-fab-button>
+      <p style="display: inline-block;">Resetta la posizione corrente</p>
+      
+  </div>
+
+
+  
+  <div class="center">
+      <ion-fab-button color="success" size="small" (click)="closeModal()">
+        <ion-icon name="thumbs-up-outline"></ion-icon>
+      </ion-fab-button>
+  </div>
+
+</div>
