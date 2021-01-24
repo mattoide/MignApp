@@ -90,8 +90,8 @@ export class HomePage {
   startCoords;
   stopCoords;
 
-  timerstarted = false;
-  stoptimer = false;
+  isTimerStarted = false;
+  shouldTimerRun = false;
   sec = 0;
 
   subscription;
@@ -104,8 +104,8 @@ export class HomePage {
   async presentModal() {
     const modal = await this.modalController.create({
       component: ModalComponent,
-  
-      
+
+
     });
     return await modal.present();
   }
@@ -147,14 +147,14 @@ export class HomePage {
   }
 
   removeStartAndArrive() {
-    
+
     this.stopCount();
 
     try {
       this.map.removeLayer(this.markerStart);
       this.map.removeLayer(this.markerStop);
     } catch { }
-    
+
     this.placedStopColor = "null"
     this.placedStartColor = "null"
 
@@ -169,9 +169,9 @@ export class HomePage {
   }
   addStartMarker() {
 
-    // if(this.markerType == arriveType && this.markerStop == null){
-    //   this.placedStopColor = "null"
-    // }
+    if(this.markerType == arriveType && this.markerStop == null){
+      this.placedStopColor = "null"
+    }
 
     this.markerType = startType;
     this.placedStartColor = "success"
@@ -189,9 +189,9 @@ export class HomePage {
 
   addArriveMarker() {
 
-    // if(this.markerType == startType && this.markerStart == null){
-    //   this.placedStartColor = "null"
-    // }
+    if(this.markerType == startType && this.markerStart == null){
+      this.placedStartColor = "null"
+    }
     this.markerType = arriveType;
     this.placedStopColor = "success"
 
@@ -211,8 +211,8 @@ export class HomePage {
 
   refreshCurrentPosition() {
 
-    this.stoptimer = false;
-    this.timerstarted = false;
+    this.shouldTimerRun = false;
+    this.isTimerStarted = false;
     this.map.removeLayer(this.markerhere);
     this.geolocation.getCurrentPosition(GeolocationOption).then((resp) => {
 
@@ -286,9 +286,9 @@ export class HomePage {
   }
 
   stopCount() {
-    this.stoptimer = true;
+    this.shouldTimerRun = false;
     this.displayTime = "00:00:000"
-    this.subscription.unsubscribe();
+   // this.subscription.unsubscribe();
     this.playStopTimer = "play"
   }
   startCount() {
@@ -317,10 +317,12 @@ export class HomePage {
 
       if (JSON.stringify(myCoords) == JSON.stringify(this.startCoords)) {
 
-        if (this.timerstarted == false) {
+        if (this.markerStop != null) {
+          this.shouldTimerRun = true
+        }
+
+        if (this.isTimerStarted == false) {
           this.startTim();
-          this.timerstarted = true
-          this.playStopTimer = "stop"
         }
 
       }
@@ -328,7 +330,9 @@ export class HomePage {
 
       if (JSON.stringify(myCoords) == JSON.stringify(this.stopCoords)) {
 
-        this.stopCount();
+        //this.stopCount();
+        this.shouldTimerRun = false;
+
         // this.subscription.unsubscribe()
       }
 
@@ -370,6 +374,8 @@ export class HomePage {
   // }
 
   startTim() {
+    this.isTimerStarted = true
+    this.playStopTimer = "stop"
     this.startedTime = Date.now();
     this.startTimer();
   }
@@ -378,16 +384,16 @@ export class HomePage {
 
     setTimeout(() => {
 
-      if (this.stoptimer == false) {
+      if (this.shouldTimerRun == true) {
 
         this.sec = Date.now() - this.startedTime
         this.displayTime = this.timeToString(this.sec)
         this.startTimer();
       } else {
 
-        this.stoptimer = false
-        this.timerstarted = false
-       // this.playStopTimer = "play"
+       // this.shouldTimerRun = true
+        this.isTimerStarted = false
+         this.playStopTimer = "play"
       }
 
     }, 1);
